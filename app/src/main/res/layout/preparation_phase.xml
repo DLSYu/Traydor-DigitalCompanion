@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF8D8">
+
+    <ImageView
+        android:id="@+id/imgvwPrepPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:padding="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/suggested_setup" />
+
+    <ImageView
+        android:id="@+id/imgvwPrepSunTop"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:paddingStart="10dp"
+        android:paddingTop="30dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/imgvwPrepPrompt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sun_with_rays" />
+
+    <ImageView
+        android:id="@+id/imgvwPrepMoonsTopLeft"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/imgvwPrepPrompt"
+        app:layout_constraintEnd_toStartOf="@+id/imgvwPrepSunTop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.533"
+        app:srcCompat="@drawable/moon_phases" />
+
+    <ImageView
+        android:id="@+id/imgvwPrepMoonsTopRight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingEnd="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/imgvwPrepPrompt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgvwPrepSunTop"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.533"
+        app:srcCompat="@drawable/moon_phases" />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imgvwPrepSunBot"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:adjustViewBounds="true"-->
+<!--        android:paddingStart="10dp"-->
+<!--        android:paddingTop="30dp"-->
+<!--        android:paddingEnd="10dp"-->
+<!--        android:paddingBottom="30dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/imgvwPrepPrompt"-->
+<!--        app:srcCompat="@drawable/sun_with_rays" />-->
+
+    <ImageView
+        android:id="@+id/imgvwPrepMoonsBotLeft"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSkip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgvwPrepPrompt"
+        app:layout_constraintVertical_bias="0.533"
+        app:srcCompat="@drawable/moon_phases" />
+
+    <ImageView
+        android:id="@+id/imgvwPrepMoonsBotRight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnSkip"
+        app:layout_constraintTop_toBottomOf="@+id/imgvwPrepPrompt"
+        app:layout_constraintVertical_bias="0.533"
+        app:srcCompat="@drawable/moon_phases" />
+
+    <Button
+        android:id="@+id/btnSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/main_button_style"
+        android:fontFamily="@font/alegreya_semibold"
+        android:text="SKIP"
+        android:textColor="#A36700"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgvwPrepPrompt" />
+</androidx.constraintlayout.widget.ConstraintLayout>

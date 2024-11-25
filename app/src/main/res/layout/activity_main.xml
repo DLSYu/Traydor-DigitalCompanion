@@ -5,15 +5,84 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#FFF8D8"
+    tools:context=".MainActivity" >
 
-    <TextView
+    <ImageView
+        android:id="@+id/imgvwTopSun"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/sun" />
+
+    <ImageView
+        android:id="@+id/imgvwBottomSun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="parent"
+        app:srcCompat="@drawable/sun" />
 
+    <LinearLayout
+        android:id="@+id/lnrlytTitle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/imgvwBottomSun"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgvwTopSun">
+
+        <TextView
+            android:id="@+id/txvwTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/alegreya_semibold"
+            android:text="TRAYDOR"
+            android:textColor="#AA6B00"
+            android:textSize="70sp" />
+
+        <LinearLayout
+            android:id="@+id/lnrlytTitleButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|center_horizontal"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnStartGame"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/main_button_style"
+                android:fontFamily="@font/alegreya_semibold"
+                android:padding="15dp"
+                android:text="Start"
+                android:textColor="#A96A00"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/btnHowToPlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/main_button_style"
+                android:fontFamily="@font/alegreya_semibold"
+                android:padding="15dp"
+                android:text="How to Play"
+                android:textColor="#A96A00"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
