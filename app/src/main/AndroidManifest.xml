@@ -24,6 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- Add new activity here -->
+        <activity android:name=".HowToPlayActivity" />
+        <activity android:name=".NightPhaseActivity" />
+        <activity android:name=".DayPhaseActivity" />
     </application>
 
 </manifest>

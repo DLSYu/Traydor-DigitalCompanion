@@ -82,6 +82,7 @@
                 android:text="How to Play"
                 android:textColor="#A96A00"
                 android:textSize="24sp" />
+
         </LinearLayout>
 
     </LinearLayout>

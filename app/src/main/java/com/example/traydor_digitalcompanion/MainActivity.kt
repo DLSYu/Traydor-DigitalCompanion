@@ -11,12 +11,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import android.media.MediaPlayer
 
 class MainActivity : AppCompatActivity() {
     private lateinit var imgTopSun : ImageView
     private lateinit var imgBottomSun : ImageView
     private lateinit var btnStart : Button
     private lateinit var btnHowToPlay : Button
+    private lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, PreparationPhase::class.java)
             startActivity(intent)
             finish()
+        }
+
+        btnHowToPlay.setOnClickListener() {
+            val intent = Intent(applicationContext, HowToPlayActivity::class.java)
+            startActivity(intent)
         }
     }
 }

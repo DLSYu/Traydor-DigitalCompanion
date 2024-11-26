@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF8D8">
+
+    <!-- TextView for Night Phase Prompt -->
+    <TextView
+        android:id="@+id/tvNightPhasePrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Night Phase Prompt"
+        android:textColor="#AA6B00"
+        android:textSize="18sp"
+        android:fontFamily="@font/alegreya_semibold"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Button for Taking Role Action -->
+    <Button
+        android:id="@+id/btnDoAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Do Action"
+        android:background="@drawable/main_button_style"
+        android:fontFamily="@font/alegreya_semibold"
+        android:textColor="#A96A00"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvNightPhasePrompt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Button for Next Phase -->
+    <Button
+        android:id="@+id/btnNextPhase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next Phase"
+        android:background="@drawable/main_button_style"
+        android:fontFamily="@font/alegreya_semibold"
+        android:textColor="#A96A00"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnDoAction"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Button for Pressing during Tiyanak event -->
+    <Button
+        android:id="@+id/btnPressForTiyanak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Press Quickly!"
+        android:background="@drawable/main_button_style"
+        android:fontFamily="@font/alegreya_semibold"
+        android:textColor="#A96A00"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvNightPhasePrompt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

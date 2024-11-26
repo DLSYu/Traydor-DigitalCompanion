@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Traydor-DigitalCompanion</string>
+    <string name="how_to_play_content">
+        1. Each player selects their role and shuffles the cards.\n\n
+        2. The game begins with the Night Phase, where players with roles can take special actions.\n\n
+        3. During the Day Phase, players can discuss, vote, and make decisions based on events.\n\n
+        4. Random events, such as Aswang, Tikbalang, and Kapre, may occur so be careful. These events could disable player actions, silence players, swap cards, or even bring players back to life.\n\n
+        5. Use the digital companion to help manage the game, including voting, player actions, and handling events.
+    </string>
 </resources>
+
