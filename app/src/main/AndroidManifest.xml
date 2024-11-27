@@ -13,6 +13,9 @@
         android:theme="@style/Theme.TraydorDigitalCompanion"
         tools:targetApi="31">
         <activity
+            android:name=".PlayerCountActivity"
+            android:exported="false" />
+        <activity
             android:name=".PreparationPhase"
             android:exported="false" />
         <activity
@@ -23,8 +26,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- Add new activity here -->
+        </activity> <!-- Add new activity here -->
         <activity android:name=".HowToPlayActivity" />
         <activity android:name=".NightPhaseActivity" />
         <activity android:name=".DayPhaseActivity" />

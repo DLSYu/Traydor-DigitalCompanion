@@ -10,6 +10,7 @@ object GameController {
     // Method to set the initial player count based on user input
     fun setInitialPlayerCount(playerCount: Int) {
         initialPlayerCount = playerCount
+        lastRoundPlayed = if(initialPlayerCount == 5) true else false
         Log.d("GameController", "Initial player count set to: $initialPlayerCount")
     }
 
@@ -28,7 +29,7 @@ object GameController {
 
     // Method to check if the current game is in the final round (i.e., 5 players remain)
     fun isFinalRound(): Boolean {
-        val isFinal = initialPlayerCount == 5 && !lastRoundPlayed
+        val isFinal = initialPlayerCount < 5 && !lastRoundPlayed
         Log.d("GameController", "Checking if it's the final round: $isFinal")
         return isFinal
     }

@@ -7,23 +7,24 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
 class NightPhaseActivity : AppCompatActivity() {
 
+    private lateinit var imgvwNightPrompt: ImageView
     private lateinit var tvNightPhasePrompt: TextView
-    private lateinit var btnDoAction: Button
-    private lateinit var btnNextPhase: Button
-    private lateinit var btnPressForTiyanak: Button
+    private lateinit var btnNightPhase: Button
 
     // Role actions list following the specified sequence: Traydor, Heneral, Espiya, Arrepentida
     private val roleActions = listOf(
-        "Traydor, you are allowed to open your eyes during the Night Phase. Be careful not to get caught.",
-        "Heneral takes action.",
-        "Espiya collects information.",
-        "Arrepentida uses ability."
+        //TODO: replace image to correct version of role card
+        Pair(R.drawable.mabini, "Traydor, you are allowed to open your eyes during the Night Phase. Be careful not to get caught."),
+        Pair(R.drawable.mabini,"Heneral takes action."),
+        Pair(R.drawable.mabini, "Espiya collects information."),
+        Pair(R.drawable.mabini, "Arrepentida uses ability.")
     )
     private var currentRoleActionIndex = 0
 
@@ -33,10 +34,9 @@ class NightPhaseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_night_phase)
 
         // Initialize views
+        imgvwNightPrompt = findViewById(R.id.imgvwNightPrompt)
         tvNightPhasePrompt = findViewById(R.id.tvNightPhasePrompt)
-        btnDoAction = findViewById(R.id.btnDoAction)
-        btnNextPhase = findViewById(R.id.btnNextPhase)
-        btnPressForTiyanak = findViewById(R.id.btnPressForTiyanak)
+        btnNightPhase = findViewById(R.id.btnNightPhase)
 
         // Initialize prompt for the first role action or reshuffling prompt if needed
         if (GameController.shouldShowReshufflePrompt()) {
@@ -45,52 +45,48 @@ class NightPhaseActivity : AppCompatActivity() {
             tvNightPhasePrompt.text = "Night has fallen. Each role will now take their actions."
         }
 
-        // Set up the Do Action button
-        btnDoAction.setOnClickListener {
-            Log.d("NightPhaseActivity", "Button clicked. Current role action index: $currentRoleActionIndex")
+        btnNightPhase.text = "Do Action"
 
-            if (currentRoleActionIndex < roleActions.size) {
-                Log.d("NightPhaseActivity", "Attempting to display role action: ${roleActions[currentRoleActionIndex]}")
+        btnNightPhase.setOnClickListener{
+            when(btnNightPhase.text){
+                "Do Action" -> {
+                    Log.d("NightPhaseActivity", "Button clicked. Current role action index: $currentRoleActionIndex")
 
-                tvNightPhasePrompt.text = roleActions[currentRoleActionIndex]
-                Log.d("NightPhaseActivity", "Displayed role action prompt: ${tvNightPhasePrompt.text}")
+                    if (currentRoleActionIndex < roleActions.size) {
+                        Log.d("NightPhaseActivity", "Attempting to display role action: ${roleActions[currentRoleActionIndex].second}")
 
-                currentRoleActionIndex++
-                Log.d("NightPhaseActivity", "Incremented role action index to: $currentRoleActionIndex")
+                        tvNightPhasePrompt.text = roleActions[currentRoleActionIndex].second
+                        imgvwNightPrompt.setImageResource(roleActions[currentRoleActionIndex].first)
+                        Log.d("NightPhaseActivity", "Displayed role action prompt: ${tvNightPhasePrompt.text}")
 
-                if (currentRoleActionIndex == roleActions.size) {
-                    Log.d("NightPhaseActivity", "All roles have acted. Adding delay before proceeding to folklore event.")
 
-                    btnDoAction.visibility = View.GONE
+                        currentRoleActionIndex++
+                        Log.d("NightPhaseActivity", "Incremented role action index to: $currentRoleActionIndex")
 
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        Log.d("NightPhaseActivity", "Proceeding to folklore event after delay.")
-                        checkForFolkloreEvent()
-                    }, 1000) // 1-second delay before folklore event
+                        if (currentRoleActionIndex == roleActions.size) {
+                            Log.d("NightPhaseActivity", "All roles have acted. Adding delay before proceeding to folklore event.")
+
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                Log.d("NightPhaseActivity", "Proceeding to folklore event after delay.")
+                                checkForFolkloreEvent()
+                            }, 1000) // 1-second delay before folklore event
+                        }
+                    }
+                }
+
+                "Next Phase" -> {
+                    val intent = Intent(this, DayPhaseActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
+                "Press Quickly!" -> {
+                    tvNightPhasePrompt.text = "Tiyanak has been appeased! The discussion time remains normal."
+                    btnNightPhase.text = "Next Phase"
                 }
             }
         }
-
-        // Set up the Next Phase button to proceed to DayPhaseActivity
-        btnNextPhase.setOnClickListener {
-            val intent = Intent(this, DayPhaseActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        // Set up the button to handle the Tiyanak event
-        btnPressForTiyanak.setOnClickListener {
-            tvNightPhasePrompt.text = "Tiyanak has been appeased! The discussion time remains normal."
-            btnPressForTiyanak.visibility = View.GONE
-            btnNextPhase.visibility = View.VISIBLE
-        }
-
-        // Initially hide all buttons except Do Action
-        btnDoAction.visibility = View.VISIBLE
-        btnNextPhase.visibility = View.GONE
-        btnPressForTiyanak.visibility = View.GONE
     }
-
     // Method to check if a folklore event occurs by random chance
     private fun checkForFolkloreEvent() {
         val folkloreEvents = listOf(
@@ -107,16 +103,12 @@ class NightPhaseActivity : AppCompatActivity() {
             "Kapre" -> tvNightPhasePrompt.text = "Kapre appears! The roles are switched. Traydor, choose who you think is Mabini. Mabini, lay low!"
             "Tiyanak" -> {
                 tvNightPhasePrompt.text = "Tiyanak appears! Press the button before time runs out, or the discussion time will be shortened."
-                btnPressForTiyanak.visibility = View.VISIBLE
-
-                btnDoAction.visibility = View.GONE
-                btnNextPhase.visibility = View.GONE
+                btnNightPhase.text = "Press Quickly!"
 
                 Handler().postDelayed({
-                    if (btnPressForTiyanak.visibility == View.VISIBLE) {
+                    if (btnNightPhase.text == "Press Quickly!") {
                         tvNightPhasePrompt.text = "Tiyanak was not appeased in time! Discussion time is now shorter."
-                        btnPressForTiyanak.visibility = View.GONE
-                        btnNextPhase.visibility = View.VISIBLE
+                        btnNightPhase.text = "Next Phase"
                     }
                 }, 5000) // 5 seconds to press the button
             }
@@ -124,7 +116,7 @@ class NightPhaseActivity : AppCompatActivity() {
         }
 
         if (selectedEvent != "Tiyanak") {
-            btnNextPhase.visibility = View.VISIBLE
+            btnNightPhase.text = "Next Phase"
         }
     }
 }

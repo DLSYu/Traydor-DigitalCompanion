@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         imgBottomSun.startAnimation(sunCCAnimation)
 
         btnStart.setOnClickListener(){
-            val intent = Intent(applicationContext, PreparationPhase::class.java)
+            val intent = Intent(applicationContext, PlayerCountActivity::class.java)
             startActivity(intent)
             finish()
         }

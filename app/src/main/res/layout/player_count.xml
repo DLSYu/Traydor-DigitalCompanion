@@ -5,39 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF8D8">
-
-    <LinearLayout
-        android:id="@+id/lnrlytPrepPrompt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/imgvwPrepPrompt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:padding="30dp"
-            app:srcCompat="@drawable/suggested_setup" />
-
-        <TextView
-            android:id="@+id/tvPreparationPrompt"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/alegreya_semibold"
-            android:gravity="center"
-            android:text="TextView"
-            android:textColor="#A36700"
-            android:textSize="24sp" />
-    </LinearLayout>
-
+<!--    <ImageView-->
+<!--        android:id="@+id/lnrlytForUserInput"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:adjustViewBounds="true"-->
+<!--        android:padding="30dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/suggested_setup" />-->
     <ImageView
-        android:id="@+id/imgvwPrepEyeTop"
+        android:id="@+id/imgvwPlayerCountEyeTop"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:adjustViewBounds="true"
@@ -45,35 +25,35 @@
         android:paddingTop="30dp"
         android:paddingEnd="10dp"
         android:paddingBottom="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/lnrlytPrepPrompt"
+        app:layout_constraintBottom_toTopOf="@+id/lnrlytForUserInput"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/eye" />
     <ImageView
-        android:id="@+id/imgvwPrepMoonsTopLeft"
+        android:id="@+id/imgvwPlayerCountMoonsTopLeft"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/lnrlytPrepPrompt"
-        app:layout_constraintEnd_toStartOf="@+id/imgvwPrepEyeTop"
+        app:layout_constraintBottom_toTopOf="@+id/lnrlytForUserInput"
+        app:layout_constraintEnd_toStartOf="@+id/imgvwPlayerCountEyeTop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.533"
         app:srcCompat="@drawable/moon_phases" />
     <ImageView
-        android:id="@+id/imgvwPrepMoonsTopRight"
+        android:id="@+id/imgvwPlayerCountMoonsTopRight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingEnd="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/lnrlytPrepPrompt"
+        app:layout_constraintBottom_toTopOf="@+id/lnrlytForUserInput"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgvwPrepEyeTop"
+        app:layout_constraintStart_toEndOf="@+id/imgvwPlayerCountEyeTop"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.533"
         app:srcCompat="@drawable/moon_phases" />
     <!--    <ImageView-->
-    <!--        android:id="@+id/imgvwPrepSunBot"-->
+    <!--        android:id="@+id/imgvwPlayerCountSunBot"-->
     <!--        android:layout_width="wrap_content"-->
     <!--        android:layout_height="0dp"-->
     <!--        android:adjustViewBounds="true"-->
@@ -84,44 +64,79 @@
     <!--        app:layout_constraintBottom_toBottomOf="parent"-->
     <!--        app:layout_constraintEnd_toEndOf="parent"-->
     <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/lnrlytPrepPrompt"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/lnrlytForUserInput"-->
     <!--        app:srcCompat="@drawable/sun_with_rays" />-->
+    <LinearLayout
+        android:id="@+id/lnrlytForUserInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/alegreya_semibold"
+            android:gravity="center"
+            android:text="Select the number of players: "
+            android:textColor="#A26600"
+            android:textSize="34sp" />
+
+        <Spinner
+            android:id="@+id/spnrPlayerCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/main_spinner_style"
+            tools:listitem="@layout/spinner_item_style" />
+
+    </LinearLayout>
+
     <ImageView
-        android:id="@+id/imgvwPrepMoonsBotLeft"
+        android:id="@+id/imgvwPlayerCountMoonsBotLeft"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnNextPrompt"
+        app:layout_constraintEnd_toStartOf="@+id/btnNextPhase"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lnrlytPrepPrompt"
+        app:layout_constraintTop_toBottomOf="@+id/lnrlytForUserInput"
         app:layout_constraintVertical_bias="0.533"
         app:srcCompat="@drawable/moon_phases" />
     <ImageView
-        android:id="@+id/imgvwPrepMoonsBotRight"
+        android:id="@+id/imgvwPlayerCountMoonsBotRight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnNextPrompt"
-        app:layout_constraintTop_toBottomOf="@+id/lnrlytPrepPrompt"
+        app:layout_constraintStart_toEndOf="@+id/btnNextPhase"
+        app:layout_constraintTop_toBottomOf="@+id/lnrlytForUserInput"
         app:layout_constraintVertical_bias="0.533"
         app:srcCompat="@drawable/moon_phases" />
+
     <Button
-        android:id="@+id/btnNextPrompt"
+        android:id="@+id/btnNextPhase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:background="@drawable/main_button_style"
         android:fontFamily="@font/alegreya_semibold"
-        android:text="SKIP"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:text="Confirm"
         android:textColor="#A36700"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lnrlytPrepPrompt" />
+        app:layout_constraintTop_toBottomOf="@+id/lnrlytForUserInput" />
 </androidx.constraintlayout.widget.ConstraintLayout>

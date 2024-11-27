@@ -6,16 +6,19 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.transition.Visibility
 
 class DayPhaseActivity : AppCompatActivity() {
 
+    private lateinit var imgvwDayPrompt: ImageView
     private lateinit var tvDayPhasePrompt: TextView
     private lateinit var tvTimer: TextView
-    private lateinit var btnNextPhase: Button
-    private lateinit var btnSkipTimer: Button
+    private lateinit var btnDayPhase: Button
+
     private var isTiyanakEventActive = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,62 +27,68 @@ class DayPhaseActivity : AppCompatActivity() {
         setContentView(R.layout.activity_day_phase)
 
         // Initialize views
+        imgvwDayPrompt = findViewById(R.id.imgvwDayPrompt)
         tvDayPhasePrompt = findViewById(R.id.tvDayPhasePrompt)
         tvTimer = findViewById(R.id.tvTimer)
-        btnNextPhase = findViewById(R.id.btnNextPhase)
-        btnSkipTimer = findViewById(R.id.btnSkipTimer)
+        btnDayPhase = findViewById(R.id.btnDayPhase)
 
         // Determine if the Tiyanak folklore event was active from the Night Phase
         isTiyanakEventActive = intent.getBooleanExtra("TiyanakEventActive", false)
 
         // Initialize prompt for the Day Phase
         tvDayPhasePrompt.text = "Day has started. Players will now discuss and act."
+        imgvwDayPrompt.setImageResource(R.drawable.sun)
 
         // Hide Next Phase button initially
-        btnNextPhase.visibility = View.GONE
+        btnDayPhase.text = "Skip Timer"
 
         // Initialize the timer based on the Tiyanak event
         startDiscussionTimer(isTiyanakEventActive)
 
-        // Set up the Skip Timer button to skip the countdown
-        btnSkipTimer.setOnClickListener {
-            tvTimer.text = "00:00"
-            tvDayPhasePrompt.text = "Discussion time is over. Mabini will now decide who to vote."
-            btnNextPhase.visibility = View.VISIBLE
-        }
-
-        // Set up the Next Phase button
-        btnNextPhase.setOnClickListener {
-            GameController.playerVotedOut()
-
-            if (GameController.isFinalRound()) {
-                Log.d("DayPhaseActivity", "Final round reached, transitioning to the last night phase.")
-                GameController.markFinalRoundPlayed()
-
-                // Proceed to the last night phase
-                val intent = Intent(this, NightPhaseActivity::class.java)
-                startActivity(intent)
-                finish()
-            } else if (GameController.isGameEnd()) {
-                Log.d("DayPhaseActivity", "Game ending. Showing final results.")
-                tvDayPhasePrompt.text = "The game has ended! Determining the final victors..."
-                btnNextPhase.text = "End Game"
-                GameController.resetGameValues() // Reset game values for a new game
-
-                // Set button click to go back to the main menu
-                btnNextPhase.setOnClickListener {
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+        btnDayPhase.setOnClickListener{
+            when(btnDayPhase.text){
+                "Skip Timer" -> {
+                    tvTimer.text = "00:00"
+                    tvDayPhasePrompt.text = "Discussion time is over. Mabini will now decide who to vote."
+                    //TODO: replace image to correct version of role card
+                    imgvwDayPrompt.setImageResource(R.drawable.mabini)
+                    btnDayPhase.text = "Next Phase"
                 }
-            } else {
-                Log.d("DayPhaseActivity", "Continuing to the next round.")
-                GameController.incrementRound()
 
-                // Proceed to the next night phase
-                val intent = Intent(this, NightPhaseActivity::class.java)
-                startActivity(intent)
-                finish()
+                "Next Phase" -> {
+                    GameController.playerVotedOut()
+
+                    if (GameController.isFinalRound()) {
+                        Log.d("DayPhaseActivity", "Final round reached, transitioning to the last night phase.")
+                        GameController.markFinalRoundPlayed()
+
+                        // Proceed to the last night phase
+                        val intent = Intent(this, NightPhaseActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else if (GameController.isGameEnd()) {
+                        Log.d("DayPhaseActivity", "Game ending. Showing final results.")
+                        tvTimer.visibility = View.GONE
+                        tvDayPhasePrompt.text = "The game has ended! Determining the final victors..."
+                        btnDayPhase.text = "End Game"
+                        GameController.resetGameValues() // Reset game values for a new game
+
+                        // Set button click to go back to the main menu
+                        btnDayPhase.setOnClickListener {
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    } else {
+                        Log.d("DayPhaseActivity", "Continuing to the next round.")
+                        GameController.incrementRound()
+
+                        // Proceed to the next night phase
+                        val intent = Intent(this, NightPhaseActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
             }
         }
     }
@@ -104,7 +113,7 @@ class DayPhaseActivity : AppCompatActivity() {
             override fun onFinish() {
                 tvTimer.text = "00:00"
                 tvDayPhasePrompt.text = "Discussion time is over. Mabini will now decide who to vote."
-                btnNextPhase.visibility = View.VISIBLE
+                btnDayPhase.text = "Next Phase"
             }
         }.start()
     }

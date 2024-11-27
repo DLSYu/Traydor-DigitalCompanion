@@ -27,32 +27,12 @@ class PreparationPhase : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.preparation_phase)
 
-        etNumberOfPlayers = findViewById(R.id.etNumberOfPlayers)
         tvPreparationPrompt = findViewById(R.id.tvPreparationPrompt)
         btnNextPrompt = findViewById(R.id.btnNextPrompt)
 
-        // Initialize the prompt text visibility to invisible
-        tvPreparationPrompt.text = ""
-        btnNextPrompt.isEnabled = false
-
-        // Enable the Next button only when the user enters a number of players
-        etNumberOfPlayers.setOnEditorActionListener { _, _, _ ->
-            val numOfPlayers = etNumberOfPlayers.text.toString().toIntOrNull()
-            if (numOfPlayers != null && numOfPlayers >= 5 && numOfPlayers <= 10) {
-                // Set the player count in GameController
-                GameController.setInitialPlayerCount(numOfPlayers)
-                Log.d("PreparationPhase", "Number of players set: $numOfPlayers")
-
-                // Hide the EditText and show the prompts
-                etNumberOfPlayers.visibility = View.GONE
-                tvPreparationPrompt.text = prompts[currentPromptIndex]
-                btnNextPrompt.isEnabled = true
-            } else {
-                // Notify user that input is invalid
-                etNumberOfPlayers.error = "Please enter a valid number of players (5-10)."
-            }
-            false
-        }
+        //Initialize prompts for Preparation Stage
+        tvPreparationPrompt.text = prompts[currentPromptIndex]
+        btnNextPrompt.isEnabled = true
 
         // Set up the button to navigate through prompts
         btnNextPrompt.setOnClickListener {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <item>
+                <shape>
+                    <stroke
+                        android:color="#A46800"
+                        android:width="3dp"/>
+                    <padding
+                        android:left="12dp"
+                        android:right="12dp"/>
+                    <corners android:radius="50dp"/>
+                </shape>
+            </item>
+
+            <item
+                android:drawable="@drawable/brown_arrow_drop_down"
+                android:gravity="end"/>
+        </layer-list>
+    </item>
+</selector>
