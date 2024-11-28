@@ -30,6 +30,9 @@
         <activity android:name=".HowToPlayActivity" />
         <activity android:name=".NightPhaseActivity" />
         <activity android:name=".DayPhaseActivity" />
+
+        <service android:name=".BackgroundMusicService"/>
+
     </application>
 
 </manifest>

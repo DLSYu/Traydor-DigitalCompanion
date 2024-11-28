@@ -20,9 +20,12 @@ class DayPhaseActivity : AppCompatActivity() {
     private lateinit var tvDayPhasePrompt: TextView
     private lateinit var tvTimer: TextView
     private lateinit var btnDayPhase: Button
-    private var mediaPlayer: MediaPlayer? = null
+    private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var timer: CountDownTimer
 
     private var isTiyanakEventActive = false
+    private var isKapreEventActive = false
+    private var isManananggalEventActive = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,36 +37,92 @@ class DayPhaseActivity : AppCompatActivity() {
         tvDayPhasePrompt = findViewById(R.id.tvDayPhasePrompt)
         tvTimer = findViewById(R.id.tvTimer)
         btnDayPhase = findViewById(R.id.btnDayPhase)
+        mediaPlayer = MediaPlayer()
+
+        tvTimer.visibility = View.INVISIBLE
+        tvDayPhasePrompt.visibility = View.INVISIBLE
+        btnDayPhase.visibility = View.INVISIBLE
+
+        // Determine if the Tiyanak folklore event was active from the Night Phase
+        isTiyanakEventActive = intent.getBooleanExtra("TiyanakEventActive", false)
+        isKapreEventActive = intent.getBooleanExtra("KapreEventActive", false)
+        isManananggalEventActive = intent.getBooleanExtra("ManananggalEventActive", false)
+
+
+        // Set up the countdown timer
+        var discussionTimeMillis: Long = 120000 // Default 2 minutes
+
+        if (isTiyanakEventActive) {
+            discussionTimeMillis = 60000 // Reduce discussion time to 1 minute
+        }
+        timer = object : CountDownTimer(discussionTimeMillis, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val seconds = (millisUntilFinished / 1000) % 60
+                val minutes = (millisUntilFinished / 1000) / 60
+                tvTimer.text = String.format("%02d:%02d", minutes, seconds)
+            }
+
+            override fun onFinish() {
+                if(mediaPlayer.isPlaying) mediaPlayer.stop()
+                tvTimer.text = "00:00"
+
+                if(isKapreEventActive) {
+                    tvDayPhasePrompt.text = "Discussion time is over. With the blessing of the Tikbalang, the Traydor will now decide who to vote."
+                    imgvwDayPrompt.setImageResource(R.drawable.traydor)
+                } else if(isManananggalEventActive){
+                    tvDayPhasePrompt.text = "Discussion time is over. Everyone must now decide who to vote."
+                    imgvwDayPrompt.setImageResource(R.drawable.sun_with_rays)
+                } else {
+                    tvDayPhasePrompt.text = "Discussion time is over. Mabini will now decide who to vote."
+                    imgvwDayPrompt.setImageResource(R.drawable.mabini)
+                    playMorningOnEndAudio()
+                }
+
+                btnDayPhase.text = "Next Phase"
+            }
+        }
 
         // Play day phase start audio
         mediaPlayer = MediaPlayer.create(this, R.raw.morning_on_start)
-        mediaPlayer?.start()
-
-        // Add delay before starting the discussion timer
-        Handler().postDelayed({
-            // Determine if the Tiyanak folklore event was active from the Night Phase
-            isTiyanakEventActive = intent.getBooleanExtra("TiyanakEventActive", false)
-
+        mediaPlayer.start()
+        mediaPlayer.setOnCompletionListener {
             // Initialize prompt for the Day Phase
             tvDayPhasePrompt.text = "Day has started. Players will now discuss and act."
-            imgvwDayPrompt.setImageResource(R.drawable.sun)
+            imgvwDayPrompt.setImageResource(R.drawable.sun_with_rays)
+            tvTimer.visibility = View.VISIBLE
+            tvDayPhasePrompt.visibility = View.VISIBLE
+            btnDayPhase.visibility = View.VISIBLE
 
             // Hide Next Phase button initially
             btnDayPhase.text = "Skip Timer"
 
             // Initialize the timer based on the Tiyanak event
-            startDiscussionTimer(isTiyanakEventActive)
-        }, 4500) // 4.5-second delay before starting the timer
-
+            startDiscussionTimer()
+        }
 
         btnDayPhase.setOnClickListener{
+
+            if(mediaPlayer.isPlaying){
+                mediaPlayer.stop()
+            }
+
             when(btnDayPhase.text){
                 "Skip Timer" -> {
+                    timer.cancel()
                     tvTimer.text = "00:00"
-                    tvDayPhasePrompt.text = "Discussion time is over. Mabini will now decide who to vote."
-                    //TODO: replace image to correct version of role card
-                    imgvwDayPrompt.setImageResource(R.drawable.mabini)
-                    playMorningOnEndAudio()
+
+                    if(isKapreEventActive) {
+                        tvDayPhasePrompt.text = "Discussion time is over. With the blessing of the Tikbalang, the Traydor will now decide who to vote."
+                        imgvwDayPrompt.setImageResource(R.drawable.traydor)
+                    } else if(isManananggalEventActive){
+                        tvDayPhasePrompt.text = "Discussion time is over. Everyone must now decide who to vote."
+                        imgvwDayPrompt.setImageResource(R.drawable.sun_with_rays)
+                    } else {
+                        tvDayPhasePrompt.text = "Discussion time is over. Mabini will now decide who to vote."
+                        imgvwDayPrompt.setImageResource(R.drawable.mabini)
+                        playMorningOnEndAudio()
+                    }
+
                     btnDayPhase.text = "Next Phase"
                 }
 
@@ -106,40 +165,23 @@ class DayPhaseActivity : AppCompatActivity() {
     }
 
     // Method to start a countdown timer for the discussion
-    private fun startDiscussionTimer(isTiyanakEventActive: Boolean) {
-        var discussionTimeMillis: Long = 120000 // Default 2 minutes
-
+    private fun startDiscussionTimer() {
         if (isTiyanakEventActive) {
-            discussionTimeMillis = 60000 // Reduce discussion time to 1 minute
-            tvDayPhasePrompt.text = "Tiyanak has affected the discussion time. You only have 1 minute to discuss!"
+            tvDayPhasePrompt.text =
+                "Tiyanak has affected the discussion time. You only have 1 minute to discuss!"
         }
-
-        // Set up the countdown timer
-        object : CountDownTimer(discussionTimeMillis, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                val seconds = (millisUntilFinished / 1000) % 60
-                val minutes = (millisUntilFinished / 1000) / 60
-                tvTimer.text = String.format("%02d:%02d", minutes, seconds)
-            }
-
-            override fun onFinish() {
-                tvTimer.text = "00:00"
-                tvDayPhasePrompt.text = "Discussion time is over. Mabini will now decide who to vote."
-                playMorningOnEndAudio()
-                btnDayPhase.text = "Next Phase"
-            }
-        }.start()
+        timer.start()
     }
 
     // Method to play morning_on_end audio
     private fun playMorningOnEndAudio() {
-        mediaPlayer?.release()
+        mediaPlayer.release()
         mediaPlayer = MediaPlayer.create(this, R.raw.morning_on_end)
-        mediaPlayer?.start()
+        mediaPlayer.start()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer?.release()
+        mediaPlayer.release()
     }
 }

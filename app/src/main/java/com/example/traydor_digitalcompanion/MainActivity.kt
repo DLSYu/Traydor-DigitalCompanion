@@ -1,5 +1,6 @@
 package com.example.traydor_digitalcompanion
 
+import android.app.Service
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.Animation
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var imgBottomSun : ImageView
     private lateinit var btnStart : Button
     private lateinit var btnHowToPlay : Button
-    private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var mediaPlayerLooping: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         imgBottomSun = findViewById(R.id.imgvwBottomSun)
         btnStart = findViewById(R.id.btnStartGame)
         btnHowToPlay = findViewById(R.id.btnHowToPlay)
+
 
         val sunAnimation = AnimationUtils.loadAnimation(this, R.anim.sun_rotation_clockwise)
         val sunCCAnimation = AnimationUtils.loadAnimation(this, R.anim.sun_rotation_counterclockwise)
@@ -44,6 +46,11 @@ class MainActivity : AppCompatActivity() {
         btnHowToPlay.setOnClickListener() {
             val intent = Intent(applicationContext, HowToPlayActivity::class.java)
             startActivity(intent)
+        }
+
+        val intentBGMusic = Intent(applicationContext, BackgroundMusicService::class.java)
+        if (applicationContext != null) {
+            applicationContext.startService(intentBGMusic)
         }
     }
 }

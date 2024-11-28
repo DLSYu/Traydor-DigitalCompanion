@@ -12,7 +12,6 @@ import android.util.Log
 
 class PreparationPhase : AppCompatActivity() {
 
-    private lateinit var etNumberOfPlayers: EditText
     private lateinit var tvPreparationPrompt: TextView
     private lateinit var btnNextPrompt: Button
     private val prompts = listOf(
