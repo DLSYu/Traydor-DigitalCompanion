@@ -29,7 +29,7 @@ object GameController {
 
     // Method to check if the current game is in the final round (i.e., 5 players remain)
     fun isFinalRound(): Boolean {
-        val isFinal = initialPlayerCount < 5 && !lastRoundPlayed
+        val isFinal = initialPlayerCount == 5 && !lastRoundPlayed
         Log.d("GameController", "Checking if it's the final round: $isFinal")
         return isFinal
     }
@@ -56,7 +56,7 @@ object GameController {
 
     // Method to determine if reshuffle prompt should be shown (i.e., not the first round)
     fun shouldShowReshufflePrompt(): Boolean {
-        val shouldShow = currentRound > 1
+        val shouldShow = currentRound > 1 && initialPlayerCount > 5
         Log.d("GameController", "Should show reshuffle prompt: $shouldShow")
         return shouldShow
     }

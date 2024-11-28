@@ -1,6 +1,7 @@
 package com.example.traydor_digitalcompanion
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.transition.Visibility
+import android.os.Handler
 
 class DayPhaseActivity : AppCompatActivity() {
 
@@ -18,6 +20,7 @@ class DayPhaseActivity : AppCompatActivity() {
     private lateinit var tvDayPhasePrompt: TextView
     private lateinit var tvTimer: TextView
     private lateinit var btnDayPhase: Button
+    private var mediaPlayer: MediaPlayer? = null
 
     private var isTiyanakEventActive = false
 
@@ -32,18 +35,26 @@ class DayPhaseActivity : AppCompatActivity() {
         tvTimer = findViewById(R.id.tvTimer)
         btnDayPhase = findViewById(R.id.btnDayPhase)
 
-        // Determine if the Tiyanak folklore event was active from the Night Phase
-        isTiyanakEventActive = intent.getBooleanExtra("TiyanakEventActive", false)
+        // Play day phase start audio
+        mediaPlayer = MediaPlayer.create(this, R.raw.morning_on_start)
+        mediaPlayer?.start()
 
-        // Initialize prompt for the Day Phase
-        tvDayPhasePrompt.text = "Day has started. Players will now discuss and act."
-        imgvwDayPrompt.setImageResource(R.drawable.sun)
+        // Add delay before starting the discussion timer
+        Handler().postDelayed({
+            // Determine if the Tiyanak folklore event was active from the Night Phase
+            isTiyanakEventActive = intent.getBooleanExtra("TiyanakEventActive", false)
 
-        // Hide Next Phase button initially
-        btnDayPhase.text = "Skip Timer"
+            // Initialize prompt for the Day Phase
+            tvDayPhasePrompt.text = "Day has started. Players will now discuss and act."
+            imgvwDayPrompt.setImageResource(R.drawable.sun)
 
-        // Initialize the timer based on the Tiyanak event
-        startDiscussionTimer(isTiyanakEventActive)
+            // Hide Next Phase button initially
+            btnDayPhase.text = "Skip Timer"
+
+            // Initialize the timer based on the Tiyanak event
+            startDiscussionTimer(isTiyanakEventActive)
+        }, 4500) // 4.5-second delay before starting the timer
+
 
         btnDayPhase.setOnClickListener{
             when(btnDayPhase.text){
@@ -52,6 +63,7 @@ class DayPhaseActivity : AppCompatActivity() {
                     tvDayPhasePrompt.text = "Discussion time is over. Mabini will now decide who to vote."
                     //TODO: replace image to correct version of role card
                     imgvwDayPrompt.setImageResource(R.drawable.mabini)
+                    playMorningOnEndAudio()
                     btnDayPhase.text = "Next Phase"
                 }
 
@@ -113,8 +125,21 @@ class DayPhaseActivity : AppCompatActivity() {
             override fun onFinish() {
                 tvTimer.text = "00:00"
                 tvDayPhasePrompt.text = "Discussion time is over. Mabini will now decide who to vote."
+                playMorningOnEndAudio()
                 btnDayPhase.text = "Next Phase"
             }
         }.start()
+    }
+
+    // Method to play morning_on_end audio
+    private fun playMorningOnEndAudio() {
+        mediaPlayer?.release()
+        mediaPlayer = MediaPlayer.create(this, R.raw.morning_on_end)
+        mediaPlayer?.start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
     }
 }
