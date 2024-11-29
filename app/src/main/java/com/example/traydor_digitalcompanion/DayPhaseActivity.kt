@@ -67,7 +67,7 @@ class DayPhaseActivity : AppCompatActivity() {
                 tvTimer.text = "00:00"
 
                 if(isKapreEventActive) {
-                    tvDayPhasePrompt.text = "Discussion time is over. With the blessing of the Tikbalang, the Traydor will now decide who to vote."
+                    tvDayPhasePrompt.text = "Discussion time is over. With the blessing of the Kapre, the Traydor will now decide who to vote."
                     imgvwDayPrompt.setImageResource(R.drawable.traydor)
                 } else if(isManananggalEventActive){
                     tvDayPhasePrompt.text = "Discussion time is over. Everyone must now decide who to vote."
